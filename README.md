@@ -1,5 +1,4 @@
-# aps-node-samples-buildingconnected
-BuildingConnected sample applications.
+# BuildingConnected sample applications.
 1. Authenticating with Autodesk Platform Services (APS) APIs
 2. Extracting Bid Board Opportunities to Azure SQL Server for use with PowerBI
 

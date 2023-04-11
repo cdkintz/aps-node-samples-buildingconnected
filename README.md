@@ -3,6 +3,10 @@ This repository includes programs to do the following:
 1. Authenticate with Autodesk Platform Services (APS) APIs
 2. Extract Bid Board Opportunities to Azure SQL Server for use with PowerBI
 
+Related APIS:
+1. BuildingConnected Opportunities: https://aps.autodesk.com/en/docs/buildingconnected/v2/reference/http/buildingconnected-opportunities-GET/
+2. APS Authentication: https://aps.autodesk.com/en/docs/oauth/v2/developers_guide/overview/
+
 Notes: these are meant for sample use. There are comments in the files that explain how you might want to evolve each app to suit your needs. 
 
 # Authenticating with the BuildingConnected API

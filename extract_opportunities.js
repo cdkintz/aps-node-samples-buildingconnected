@@ -1,3 +1,5 @@
+
+// Import modules
 const axios = require('axios');
 const fs = require('fs');
 const ini = require('ini');
@@ -9,30 +11,39 @@ const mysql = require('mysql');
 const configFile = path.join(__dirname, 'credentials.ini');
 const { DEFAULT: { token: auth_token } } = ini.parse(fs.readFileSync(configFile, 'utf-8'));
 
+
+// Helps us map values from the BuildingConnected API to Azure
 function forceVarChar(value, maxLength = 255, placeholder = '?') {
   const truncatedValue = value.substring(0, maxLength);
   const asciiValue = truncatedValue.replace(/[^\x00-\x7F]/g, placeholder);
   return asciiValue;
 }
 
+// Helps us map values from the BuildingConnected API to Azure
 function parseDate(dateString) {
   if (!dateString) return null;
   const date = new Date(dateString);
   return isNaN(date.getTime()) ? null : date;
 }
 
+// This is the base URL to fetch opportunities from BuildingConnected
 let url = 'https://developer.api.autodesk.com/construction/buildingconnected/v2/opportunities?limit=100';
 
+// We'll use this function to get the correct URL when we are periodically checking for new opportunities
 function getUpdatedOpportunitiesUrl(baseURL, updatedAt) {
   const updatedTimestamp = updatedAt.toISOString();
   return `${baseURL}&filter[updatedAt]=${updatedTimestamp}..`;
 }
 
+// The headers you'll need to access your data; the auth_token is stored in credentials.ini
+// AUTH.JS MUST BE RUN BEFORE THIS PROGRAM
 const headers = {
   'Authorization': `Bearer ${auth_token}`,
   'Content-Type': 'application/json'
 };
 
+
+// Define the azure db credentials
 const azureFile = './azure.ini';
 const { DEFAULT: { user, password, server, database } } = ini.parse(fs.readFileSync(azureFile, 'utf-8'));
 
@@ -44,6 +55,8 @@ const azure = {
   options: { encrypt: true }
 };
 
+// This will connect to your Azure DB
+// Add your credentials to the "azure.ini" file first
 async function connectToAzure(azureConfig) {
   try {
     const pool = await sql.connect(azureConfig);
@@ -54,6 +67,7 @@ async function connectToAzure(azureConfig) {
   }
 }
 
+// This will create tables in your Azure DB
 async function createTables(pool) {
   try {
     await pool.request().query(`
@@ -174,6 +188,8 @@ async function createTables(pool) {
   }
 } // This is the schema for the azure tables
 
+
+// This function will insert data into Azure from opportunities
 async function insertData(pool, opportunity) {
   try {
     // Insert data into opportunities table
@@ -259,9 +275,10 @@ else {
   } catch (error) {
     console.error('Error inserting data:', error);
   }
-} // this needs to be updates to map the values from responses to the createTables function
+} // You will want to set up your tables to match your needs; consider making tables with duplicates that you can extract from later
 
 
+// Define the structure of the json we expect from /opportunities
 const result = {
   id: null,
   name: null,
@@ -381,8 +398,12 @@ const result = {
   finalValue: null,
   isArchived: null,
   owningOfficeId: null
-}; // defines the json body we expect from /opportunities
+}; 
 
+// This is the main function; it will fetch opportunities from the BC API
+// If updatedAt is null, it will fetch all opportunities
+// IF updatedAt is not null, it will only fetch new opportunities
+// If CreateTablesIfNeeded is True, it will delete the existing tables in Azure and replace them with new ones
 async function fetchOpportunities(url, updatedAt = null, createTablesIfNeeded = true) {
   try {
     const results = []; // array to hold the results
@@ -488,7 +509,7 @@ async function fetchOpportunities(url, updatedAt = null, createTablesIfNeeded = 
             finalValue: opportunity.finalValue,
             isArchived: opportunity.isArchived,
             owningOfficeId: opportunity.owningOfficeId
-          }; //map results
+          };
           
           results.push(result);
           if (opportunity && opportunity.id) {
@@ -513,21 +534,24 @@ async function fetchOpportunities(url, updatedAt = null, createTablesIfNeeded = 
         break;
       }
     }
-
-    // TODO: Save the results to a file or database
-    for (const result of results) {
-      //console.log(result);
-    }
   }
   catch (error) {
-    console.error('An error occurred:', error);
+    if (error.response.status == 401 || error.response.status == 403) {
+      console.log('Looks like you need to run auth.js. Do that and try again.');
+      process.exit(1)
+    }
+    else {
+      console.error('An error occurred:', error);
+    }
   }
 }
 
-// Call the fetchOpportunities function
+// Runs the main function
 fetchOpportunities(url);
+
+// Sets a timer to periodically fetch for new opportunities
 setInterval(() => {
   const updatedAt = new Date();
-  updatedAt.setHours(updatedAt.getHours() - 1);
+  updatedAt.setHours(updatedAt.getHours() - 1); // this checks for opportunities since the last time fetchOpportunities was run minus one hour
   fetchOpportunities(url, updatedAt, createTablesIfNeeded = false);
-}, 10000);
+}, 10000); // You will want to modify this periodicity to match what you want; this is 10 seconds

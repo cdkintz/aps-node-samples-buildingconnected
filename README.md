@@ -30,7 +30,4 @@ You can customize the script by modifying the following parameters:
 - `createTablesIfNeeded`: If set to `true`, the script will delete existing tables in the Azure SQL Database and create new ones.
 - `setInterval()`: Modify the last parameter (currently set to `10000`) to change the periodicity of the script for checking new opportunities (in milliseconds).
 
-## Important Notes
-
-- Make sure to run `auth.js` before running this script.
-- Add your Azure SQL Server credentials to the `azure.ini` file before running this script.
+## Running auth.js

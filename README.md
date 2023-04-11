@@ -8,7 +8,7 @@ Related APIs:
 2. APS Authentication: https://aps.autodesk.com/en/docs/oauth/v2/developers_guide/overview/
 
 Notes: 
-- these are meant for sample use. There are comments in the files that explain how you might want to evolve each app to suit your needs. 
+- These are meant for sample use. There are comments in the files that explain how you might want to evolve each app to suit your needs. 
 - This application does not accept the authentication scheme provided by app.buildingconnected.com/docs
 
 # Authenticating with the BuildingConnected API

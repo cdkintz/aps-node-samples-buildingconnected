@@ -1,9 +1,9 @@
 # aps-node-samples-buildingconnected
-BuildingConnected sample apps
+BuildingConnected sample applications.
 
 # BuildingConnected Opportunities Extractor
 
-This script, `extract_opportunities.js`, fetches opportunities from the BuildingConnected API and stores the data in an Azure SQL Database. Before running this script, please make sure to run `auth.js`.
+The script `extract_opportunities.js` fetches opportunities from the BuildingConnected API and stores the data in an Azure SQL Database. Before running this script, please make sure to run `auth.js`.
 
 ## Prerequisites
 

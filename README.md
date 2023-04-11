@@ -3,7 +3,7 @@ BuildingConnected sample applications.
 1. Authenticating with Autodesk Platform Services (APS) APIs
 2. Extracting Bid Board Opportunities to Azure SQL Server for use with PowerBI
 
-# Running auth.js
+# Authenticating with the BuildingConnected API
 
 `auth.js` is a Node.js script that authenticates your application with the Autodesk API and saves your access token and refresh token in a configuration file `credentials.ini`. You need to run this script before using the `extract_opportunities.js` script.
 

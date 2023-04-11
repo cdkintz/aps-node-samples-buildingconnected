@@ -181,7 +181,7 @@ async function insertData(pool, opportunity) {
       .input('id', sql.NVarChar(24), opportunity.id)
       .input('name', sql.VarChar(255), forceVarChar(opportunity.name))
       .input('number', sql.NVarChar(255), opportunity.number)
-      .input('client', sql.NVarChar(sql.MAX), JSON.stringify(opportunity.client))
+      .input('client', sql.NVarChar(24), opportunity.client.company.id)
       .input('created_at', sql.DateTime2, opportunity.createdAt)
       .input('updated_at', sql.DateTime2, parseDate(opportunity.updatedAt))
       .input('default_currency', sql.NVarChar(3), opportunity.defaultCurrency)
@@ -489,13 +489,12 @@ async function fetchOpportunities(url, updatedAt = null, createTablesIfNeeded = 
             isArchived: opportunity.isArchived,
             owningOfficeId: opportunity.owningOfficeId
           }; //map results
-
-          // Add the object to the results array
+          
           results.push(result);
           if (opportunity && opportunity.id) {
-            await insertData(pool, opportunity);
+            await insertData(pool, result);
           } else {
-            console.error('Invalid opportunity object:', opportunity);
+            console.error('Invalid opportunity object:', result);
           }
         }
         //count page

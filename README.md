@@ -12,6 +12,7 @@ This script, `extract_opportunities.js`, fetches opportunities from the Building
 3. Ensure that you have added your Azure SQL Server credentials to the `azure.ini` file.
 4. You must have an APS application, which you can create at aps.autodesk.com/myapps
 5. You must have a BuildingConnected account, and your user must be linked to your Autodesk Account (learn more here: https://buildingconnected.zendesk.com/hc/en-us/articles/360047910993-How-to-log-in-to-BuildingConnected-using-your-Autodesk-ID)
+6. Your user's office must have a Bid Board Pro subscription.
 
 ## Instructions
 

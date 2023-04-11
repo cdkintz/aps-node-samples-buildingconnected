@@ -159,3 +159,7 @@ node_modules/
 
 #scratch
 scratch
+
+#credentials
+credentials.ini
+azure.ini

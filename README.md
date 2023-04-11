@@ -3,6 +3,8 @@ This repository includes programs to do the following:
 1. Authenticate with Autodesk Platform Services (APS) APIs
 2. Extract Bid Board Opportunities to Azure SQL Server for use with PowerBI
 
+Notes: these are meant for sample use. There are comments in the files that explain how you might want to evolve each app to suit your needs. 
+
 # Authenticating with the BuildingConnected API
 
 `auth.js` is a Node.js script that authenticates your application with the Autodesk API and saves your access token and refresh token in a configuration file `credentials.ini`. You need to run this script before using the `extract_opportunities.js` script.

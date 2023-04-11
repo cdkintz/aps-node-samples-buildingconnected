@@ -47,7 +47,7 @@ The script `extract_opportunities.js` fetches opportunities from the BuildingCon
 ## Instructions
 
 1. Run `auth.js` to authenticate and generate the required authorization token.
-2. Make sure your `azure.ini` file is properly set up with your Azure SQL Server credentials.
+2. Make sure your `azure.ini` file is properly set up with your Azure SQL Server credentials (if you haven't set up an Azure DB yet, learn how to do that here: https://learn.microsoft.com/en-us/azure/azure-sql/database/single-database-create-quickstart?view=azuresql&tabs=azure-portal).
 3. Run `node extract_opportunities.js` to start the extraction process.
 
 The script fetches opportunities from the BuildingConnected API, creates tables in your Azure SQL Database, and inserts the data into these tables. By default, the script will fetch all opportunities and create new tables if needed. The script also includes a timer to periodically check for new opportunities and insert them into the existing tables.

@@ -29,13 +29,13 @@ let client_id = config.DEFAULT.client_id;
 let client_secret = config.DEFAULT.client_secret;
 
 if (!client_id) {
-  client_id = readlineSync.question("Enter your BuildingConnected API client ID: ");
+  client_id = readlineSync.question("Go to aps.autodesk.com/myapps to get your Client ID, and then add it here: ");
   config.DEFAULT.client_id = client_id;
   fs.writeFileSync(configFile, ini.stringify(config));
 }
 
 if (!client_secret) {
-  client_secret = readlineSync.question("Enter your BuildingConnected API client secret: ");
+  client_secret = readlineSync.question("Enter your BuildingConnected API client secret: ", { hideEchoBack: true });
   config.DEFAULT.client_secret = client_secret;
   fs.writeFileSync(configFile, ini.stringify(config));
 }

@@ -63,7 +63,8 @@ async function connectToAzure(azureConfig) {
     console.log('Connected to Azure SQL Database...');
     return pool;
   } catch (error) {
-    console.error('Error connecting to Azure SQL Database:', error);
+    console.log('Error connecting to Azure SQL Database. Make sure you have provided your Azure credentials to Azure.ini');
+    process.exit(1)
   }
 }
 

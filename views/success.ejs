@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <header class="charcoal-header">
+      <img src="https://developer.static.autodesk.com/forgeunified/releases/current/1.0.0.20230404223034/images/aps-logo--white.svg" alt="APS Logo">
+    </header>    
+    <meta charset="UTF-8">
+    <title>Success</title>
+    <style>
+      .charcoal-header {
+        background-color: #333;
+        padding: 10px;
+      }
+
+      .charcoal-header img {
+        height: 60px;
+        width: auto;
+        margin-right: 20px;
+      }
+      body {
+        background-color: #f5f5f5;
+        color: #333;
+      }
+      h1 {
+        color: #4a4a4a;
+        font-size: 28px;
+        font-weight: 500;
+        margin-top: 0;
+      }
+      pre {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 10px;
+      font-size: 16px;
+      font-family: monospace;
+      margin-bottom: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      }
+      button {
+        background-color: rgb(95, 96, 255);
+        border: none;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 3px;
+      }
+      button:hover {
+        background-color: rgb(95, 96, 255);
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+        padding-top: 50px;
+      }
+      img {
+        height: 60px;
+        width: auto;
+        margin-right: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>You are now connected to APS</h1>
+      <p>Your authToken is:</p>
+      <pre id="authToken">Bearer <%= authToken %></pre>
+      <button onclick="copyToClipboard()">Copy to clipboard</button>
+      <p>Include this in your header:</p>
+      <pre id="headers">{
+  "Authorization": "Bearer <%= authToken %>",
+  "Content-Type": "application/json"
+}</pre>
+     <button onclick="copyHeaders()">Copy to clipboard</button>
+    </div>
+    <script>
+      const authToken = document.getElementById('authToken').textContent;
+      const headers = {
+        'Authorization': authToken,
+        'Content-Type': 'application/json'
+      };
+      console.log(headers);
+
+      function copyToClipboard() {
+        const textarea = document.createElement('textarea');
+        textarea.value = authToken;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        alert('authToken copied to clipboard');
+      }
+      
+     

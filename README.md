@@ -32,6 +32,7 @@ Make sure you have Node.js installed. If not, download and install the latest LT
 3. The script will start a local server at `http://localhost:8080` and open your default web browser to begin the OAuth2 process.
 4. Sign in to your Autodesk account when prompted.
 5. After successfully authenticating, you will be redirected to a page displaying your access token. The token will also be saved in `credentials.ini`.
+6. You can leave the application running in the background; it will periodically refresh your access token.
 
 ## Notes
 

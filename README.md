@@ -1,6 +1,7 @@
 # BuildingConnected sample applications.
-1. Authenticating with Autodesk Platform Services (APS) APIs
-2. Extracting Bid Board Opportunities to Azure SQL Server for use with PowerBI
+This repository includes programs to do the following:
+1. Authenticate with Autodesk Platform Services (APS) APIs
+2. Extract Bid Board Opportunities to Azure SQL Server for use with PowerBI
 
 # Authenticating with the BuildingConnected API
 

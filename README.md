@@ -19,6 +19,10 @@ Notes:
 
 Make sure you have Node.js installed. If not, download and install the latest LTS version from [the official Node.js website](https://nodejs.org/).
 
+You will also need to have:
+1. An APS application, which you can do by going to aps.autodesk.com/myapps and creating an application with BuildingConnected enabled
+2. A BuildingConnected account login associated with the Autodesk ID of the APS account (learn more here: https://buildingconnected.zendesk.com/hc/en-us/articles/360047910993-How-to-log-in-to-BuildingConnected-using-your-Autodesk-ID)
+
 ## Installation
 
 1. Clone or download the repository containing `auth.js` and related files.

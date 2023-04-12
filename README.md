@@ -32,7 +32,7 @@ You will also need to have:
 ## Usage
 
 1. Run `node auth.js` in your terminal.
-2. If you have not already entered your BuildingConnected API client ID and client secret, you will be prompted to enter them. The script will save these values in `credentials.ini`.
+2. If you have not already entered your BuildingConnected API client ID and client secret, you will be prompted to enter them. The script will save these values in `credentials.ini`. You can find your client ID and Secret at aps.autodesk.myapps.
 3. The script will start a local server at `http://localhost:8080` and open your default web browser to begin the OAuth2 process.
 4. Sign in to your Autodesk account when prompted.
 5. After successfully authenticating, you will be redirected to a page displaying your access token. The token will also be saved in `credentials.ini`.

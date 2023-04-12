@@ -3,11 +3,6 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 let fetch;
-import('node-fetch').then(({ default: importedFetch }) => {
-  fetch = importedFetch;
-}).catch((error) => {
-  console.error('Error importing the node-fetch module:', error);
-});
 const opn = require('opn'); // Change this line
 const readline = require('readline');
 const ini = require('ini');
@@ -51,14 +46,6 @@ if (!client_secret) {
 // Start server to handle API calls
 // By default, this will also schedule the token refresh interval
 async function startServer() {
-    try {
-      const importedFetch = await import('node-fetch');
-      fetch = importedFetch.default;
-    } catch (error) {
-      console.error('Error importing the node-fetch module:', error);
-      return;
-    }
-  
     app.listen(port, () => {
       console.log(`Server running at http://localhost:${port}`);
       opn(`http://localhost:${port}`);

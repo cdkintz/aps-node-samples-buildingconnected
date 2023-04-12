@@ -45,18 +45,18 @@ if (!client_secret) {
 
 // Start server to handle API calls
 // By default, this will also schedule the token refresh interval
-async function startServer() {
-    app.listen(port, () => {
-      console.log(`Server running at http://localhost:${port}`);
-      opn(`http://localhost:${port}`);
-    });
-  
-    // Set periodicity of token refresh
-    const tokenRefreshInterval = 1000 * 50 * 10; //refresh token, this case every 50 minutes
-    setInterval(refreshToken, tokenRefreshInterval);
-  }
-  
-startServer();  
+async function startServer(refreshIntervalMinutes = 50) { // enter the amount of minutes you wnt between each refresh
+  app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+    opn(`http://localhost:${port}`);
+  });
+
+  // Set periodicity of token refresh
+  const tokenRefreshInterval = 1000 * 60 refreshIntervalMinutes; // refresh token interval, set in minutes
+  setInterval(refreshToken, tokenRefreshInterval);
+}
+
+startServer(); 
 
 // Define the function that will refresh the token in credentials.ini
 // Set the periodicity in startServer under tokenRefreshInterval
@@ -99,7 +99,7 @@ async function refreshToken() {
   }
 }
 
-// Relevant apis and scopes
+// Releavant apis and scopes
 // See https://aps.autodesk.com/en/docs/oauth/v2/tutorials/get-3-legged-token/ for documentation
 const redirect_uri = 'http://localhost:8080/callback';
 const scope = 'data:read';
@@ -109,8 +109,6 @@ const token_url = 'https://developer.api.autodesk.com/authentication/v2/token';
 let token = null;
 let auth_code = null;
 
-// Trigger refresh
-refreshToken();
 
 //Fetch auth code
 // API https://aps.autodesk.com/en/docs/oauth/v2/reference/http/authorize-GET/

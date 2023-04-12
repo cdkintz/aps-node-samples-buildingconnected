@@ -61,55 +61,56 @@ startServer();
 // Define the function that will refresh the token in credentials.ini
 // Set the periodicity in startServer under tokenRefreshInterval
 async function refreshToken() {
-    const config = ini.parse(fs.readFileSync('credentials.ini', 'utf-8'));
-    const refresh_token = config.DEFAULT.refresh_token;
-  
-    const data = new URLSearchParams({
-      grant_type: 'refresh_token',
-      refresh_token: refresh_token,
-      client_id: client_id,
-      client_secret: client_secret
-    });
-  
-    // Call aps authentication API
-    try {
-      const response = await axios.get(token_url, {
-        headers: headers,
-        data: data.toString(),
-      });
-  
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`HTTP error: ${response.status} - ${errorText}`);
-      }
-      
-      // Define the token
-      const token = await response.json();
-  
-      // Update the token values in the config object
-      config.DEFAULT.token = token.access_token;
-      config.DEFAULT.refresh_token = token.refresh_token;
-  
-      // Write the updated config object to the file
-      const config_path = path.join(__dirname, 'credentials.ini');
-      fs.writeFileSync(config_path, ini.stringify(config));
-  
-      console.log('Access token refreshed:', token.access_token);
-    } catch (error) {
-      console.error('Error refreshing token:', error);
-    }
-  }
+  const config = ini.parse(fs.readFileSync('credentials.ini', 'utf-8'));
+  const refresh_token = config.DEFAULT.refresh_token;
 
+  const client_id = config.DEFAULT.client_id;
+  const client_secret = config.DEFAULT.client_secret;
+
+  const data = new URLSearchParams({
+    grant_type: 'refresh_token',
+    refresh_token: refresh_token,
+  });
+
+  const base64Credentials = Buffer.from(`${client_id}:${client_secret}`).toString('base64');
+  const headers = {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Authorization': `Basic ${base64Credentials}`,
+  };
+
+  try {
+    const response = await axios.post(token_url, data.toString(), { headers: headers });
+
+    if (response.status !== 200) {
+      throw new Error(`HTTP error: ${response.status} - ${response.statusText}`);
+    }
+
+    const token = response.data;
+
+    config.DEFAULT.token = token.access_token;
+    config.DEFAULT.refresh_token = token.refresh_token;
+
+    const config_path = path.join(__dirname, 'credentials.ini');
+    fs.writeFileSync(config_path, ini.stringify(config));
+
+    console.log('Access token refreshed:', token.access_token);
+  } catch (error) {
+    console.error('Error refreshing token:', error);
+  }
+}
 
 // Releavant apis and scopes
 // See https://aps.autodesk.com/en/docs/oauth/v2/tutorials/get-3-legged-token/ for documentation
 const redirect_uri = 'http://localhost:8080/callback';
 const scope = 'data:read';
-const authorization_url = 'https://developer.api.autodesk.com/authentication/v1/authorize';
-const token_url = 'https://developer.api.autodesk.com/authentication/v1/gettoken';
+const authorization_url = 'https://developer.api.autodesk.com/authentication/v2/authorize';
+const token_url = 'https://developer.api.autodesk.com/authentication/v2/token';
 
 let token = null;
 let auth_code = null;
+
+// Trigger refresh
+refreshToken();
 
 //Fetch auth code
 // API https://aps.autodesk.com/en/docs/oauth/v2/reference/http/authorize-GET/
@@ -122,21 +123,21 @@ app.get('/', (req, res) => {
 // Operation to call API to get access tokens
 app.get('/callback', async (req, res) => {
   auth_code = req.query.code;
-  const data = {
+  const data = new URLSearchParams({
     grant_type: 'authorization_code',
     code: auth_code,
-    client_id: client_id,
-    client_secret: client_secret,
     redirect_uri: redirect_uri,
+  });
+
+  const base64Credentials = Buffer.from(`${client_id}:${client_secret}`).toString('base64');
+  const headers = {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Authorization': `Basic ${base64Credentials}`,
   };
 
   // Get access tokens
   try {
-    const response = await axios.post(token_url, data, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    });
+    const response = await axios.post(token_url, data.toString(), { headers: headers });
 
     token = response.data;
 
@@ -147,10 +148,12 @@ app.get('/callback', async (req, res) => {
 
     // Log token
     console.log('Here is your token: ' + config.DEFAULT.token);
-    console.log(config.DEFAULT.token);
+
     // Render webpage with success token
     res.render('success', { authToken: config.DEFAULT.token });
-  } catch (err) {
-    console.error('Error:', err);
+  } catch (error) {
+    // Handle the error
+    console.error('Error getting access tokens:', error);
+    res.status(500).send('Error getting access tokens');
   }
-});  
+});

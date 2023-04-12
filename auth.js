@@ -99,7 +99,7 @@ async function refreshToken() {
   }
 }
 
-// Releavant apis and scopes
+// Relevant apis and scopes
 // See https://aps.autodesk.com/en/docs/oauth/v2/tutorials/get-3-legged-token/ for documentation
 const redirect_uri = 'http://localhost:8080/callback';
 const scope = 'data:read';

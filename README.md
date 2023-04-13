@@ -21,10 +21,10 @@ Notes:
 1. Make sure you have Node.js installed. If not, download and install the latest LTS version from [the official Node.js website](https://nodejs.org/).
 2. An APS application: go to aps.autodesk.com/myapps and create an application the with BuildingConnected application enabled
 3. In your APS application, add a callback URL http://localhost:8080/callback (see screenshot)
-2. A BuildingConnected account that is linked to the Autodesk ID of the APS application
 
 ![image](https://user-images.githubusercontent.com/16196853/231611581-9ca0a0fd-fba8-4485-a76b-0b52b724ab31.png)
 
+4. A BuildingConnected account that is linked to the Autodesk ID of the APS application
 ![image](https://user-images.githubusercontent.com/16196853/231611831-f49fd28b-9060-422f-950c-5c159b9f8272.png)
 
 

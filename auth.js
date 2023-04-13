@@ -45,14 +45,14 @@ if (!client_secret) {
 
 // Start server to handle API calls
 // By default, this will also schedule the token refresh interval
-async function startServer(refreshIntervalMinutes = 50) { // enter the amount of minutes you wnt between each refresh
+async function startServer(refreshIntervalMinutes = 50) {
   app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
     opn(`http://localhost:${port}`);
   });
 
   // Set periodicity of token refresh
-  const tokenRefreshInterval = 1000 * 60 refreshIntervalMinutes; // refresh token interval, set in minutes
+  const tokenRefreshInterval = 1000 * 60 * refreshIntervalMinutes; // refresh token, default is every 50 minutes
   setInterval(refreshToken, tokenRefreshInterval);
 }
 

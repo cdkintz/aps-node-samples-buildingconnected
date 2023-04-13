@@ -17,11 +17,16 @@ Notes:
 
 ## Prerequisites
 
-Make sure you have Node.js installed. If not, download and install the latest LTS version from [the official Node.js website](https://nodejs.org/).
 
-You will also need to have:
-1. An APS application, which you can do by going to aps.autodesk.com/myapps and creating an application with BuildingConnected enabled
-2. A BuildingConnected account login associated with the Autodesk ID of the APS account (learn more here: https://buildingconnected.zendesk.com/hc/en-us/articles/360047910993-How-to-log-in-to-BuildingConnected-using-your-Autodesk-ID)
+1. Make sure you have Node.js installed. If not, download and install the latest LTS version from [the official Node.js website](https://nodejs.org/).
+2. An APS application: go to aps.autodesk.com/myapps and create an application the with BuildingConnected application enabled
+3. In your APS application, add a callback URL http://localhost:8080/callback (see screenshot)
+2. A BuildingConnected account that is linked to the Autodesk ID of the APS application
+
+![image](https://user-images.githubusercontent.com/16196853/231611581-9ca0a0fd-fba8-4485-a76b-0b52b724ab31.png)
+
+![image](https://user-images.githubusercontent.com/16196853/231611831-f49fd28b-9060-422f-950c-5c159b9f8272.png)
+
 
 ## Installation
 
@@ -32,7 +37,7 @@ You will also need to have:
 ## Usage
 
 1. Run `node auth.js` in your terminal.
-2. If you have not already entered your BuildingConnected API client ID and client secret, you will be prompted to enter them. The script will save these values in `credentials.ini`. You can find your client ID and Secret at aps.autodesk.myapps.
+2. If you have not already entered your BuildingConnected API client ID and client secret, you will be prompted to enter them. The script will save these values in `credentials.ini`.
 3. The script will start a local server at `http://localhost:8080` and open your default web browser to begin the OAuth2 process.
 4. Sign in to your Autodesk account when prompted.
 5. After successfully authenticating, you will be redirected to a page displaying your access token. The token will also be saved in `credentials.ini`.

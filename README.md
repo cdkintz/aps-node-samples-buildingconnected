@@ -1,3 +1,5 @@
+This code was generated using ChatGPT4 (with human refactoring).
+
 # BuildingConnected Sample Applications
 This repository includes programs to do the following:
 1. Authenticate with Autodesk Platform Services (APS) APIs
